@@ -35,30 +35,25 @@ as_markdown.Rd <- function(x, ...) {
 # Various internal classes ---------------------------------------------------
 
 #' @export
-as_markdown.DESCRIPTION <- function(x, section_level = 1, ...) {
+as_markdown.DESCRIPTION <- function(x, section_level = 0, ...) {
   paste0(
-    h_md("DESCRIPTION", section_level = section_level),
+    h_md("PACKAGE OVERVIEW", section_level = 0),
     pre_md(paste(x, collapse = "\n"))
   )
 }
 
+#' Create header as a combo of title & name
 #' @export
 as_markdown.refman_rdfile <- function(x, section_level = 1, ...) {
   funname <- flatten_text_md(find_section(x, "tag_name"), ...)
   fundesc <- flatten_text_md(find_section(x, "tag_title"), ...)
-  title <- h_md(
-    paste(
-      code_md(funname),
-      fundesc,
-      sep = ": "
-    ),
-    section_level
-  )
+  title <- paste0(
+    h_md( code_md(funname), section_level),
+    ih_md(fundesc))
 
   x <- order_rdfile(
     x,
     keep_first = paste0("tag_", c("description", "usage", "arguments")),
-    # name and title already concatenated above
     # alias(es) will be shown in usage section
     remove = paste0("tag_", c("name", "title", "alias")),
     keep_last = paste0("tag_", c("value", "see_also", "examples"))
@@ -122,7 +117,8 @@ as_markdown.tag_alias <- parse_section_md
 as_markdown.tag_arguments <- function(x, section_level = 2, ...) {
   title <- tag_to_title(x)
   paste0(
-    h_md(title, section_level),
+    #h_md(title, section_level),
+    bh_md(title),
     flatten_para_md(describe_contents_md(x, ...), ...)
   )
 }
@@ -143,7 +139,8 @@ as_markdown.tag_encoding <- function(x, ...) ""
 as_markdown.tag_examples <- function(x, section_level, ...) {
   p_md(
     paste0(
-      h_md(tag_to_title(x), section_level),
+      #h_md(tag_to_title(x), section_level),
+      bh_md(tag_to_title(x)),
       pre_md(flatten_text_md(x, ...), lang = "r")
     )
   )
@@ -172,7 +169,8 @@ as_markdown.tag_seealso <- parse_section_md
 as_markdown.tag_source <- parse_section_md
 #' @export
 as_markdown.tag_title <- function(x, ...) {
-  parse_section_md(NULL, title = x[[1]], ...)
+  # parse_section_md(NULL, title = x[[1]], ...)
+  ih_md(tag_to_title(x))
 }
 #' @export
 as_markdown.tag_value <- parse_section_md
@@ -180,7 +178,8 @@ as_markdown.tag_value <- parse_section_md
 as_markdown.tag_usage <- function(x, section_level, ...) {
   p_md(
     paste0(
-      h_md(tag_to_title(x), section_level),
+      #h_md(tag_to_title(x), section_level),
+      bh_md(tag_to_title(x)),
       pre_md(flatten_text_md(x, ...), lang = "r")
     )
   )

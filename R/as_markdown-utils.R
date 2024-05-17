@@ -108,7 +108,8 @@ parse_section_md <- function(
     title <- tag_to_title(x)
   }
   remove_obsolete_newlines(paste0(
-    h_md(title, section_level),
+    #h_md(title, section_level),
+    bh_md(title),
     flatten_para_md(x, ...)
   ))
 }

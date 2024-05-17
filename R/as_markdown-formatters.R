@@ -13,7 +13,9 @@ img_md <- function(src, alt) {
 }
 
 h_md <- function(text, section_level) {
-  prefix <- strrep("#", section_level)
+  # to ensure that there's just ONE L1 header at most
+  # for mkdocs
+  prefix <- strrep("#", section_level + 1)
   sprintf("%s %s\n\n", prefix, trimws(text))
 }
 
@@ -23,6 +25,15 @@ p_md <- function(text) {
 
 b_md <- function(text) {
   sprintf("**%s**", text)
+}
+
+## for replacing headers with just bold (mkdocs quirk)
+bh_md <- function(text){
+  sprintf("**%s**\n\n", trimws(text))
+}
+
+ih_md <- function(text){
+  sprintf("\n*%s*\n\n", trimws(text))
 }
 
 i_md <- function(text) {

@@ -48,7 +48,7 @@ as_markdown.refman_rdfile <- function(x, section_level = 1, ...) {
   funname <- flatten_text_md(find_section(x, "tag_name"), ...)
   fundesc <- flatten_text_md(find_section(x, "tag_title"), ...)
   title <- paste0(
-    h_md( code_md(funname), section_level),
+    h_md( codeFun_md(funname), section_level),
     ih_md(fundesc))
 
   x <- order_rdfile(

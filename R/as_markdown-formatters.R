@@ -52,6 +52,10 @@ code_md <- function(text) {
   sprintf("`%s`", text)
 }
 
+codeFun_md <- function(text) {
+  sprintf("`%s()`", text)
+}
+
 pre_md <- function(text, lang = NULL) {
   if (is_empty(lang)) lang <- ""
   sprintf("```%s\n%s\n```\n\n", lang, trimws(text))
